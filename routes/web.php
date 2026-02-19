@@ -37,6 +37,7 @@ use App\Http\Controllers\WithdrawMethodController;
 use App\Http\Controllers\BankTransactionController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\WithdrawRequestController;
+use App\Http\Controllers\CustomerWizardController;
 use App\Http\Controllers\TransactionCategoryController;
 use App\Http\Controllers\NotificationTemplateController;
 
@@ -332,6 +333,44 @@ Route::group(['middleware' => ['install']], function () {
         });
     });
 });
+// customer registration route
+use App\Http\Controllers\CustomerController;
+
+Route::prefix('registry')->middleware(['auth'])->group(function () {
+
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers/store', [CustomerController::class, 'store'])->name('customers.store');
+
+    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+
+    Route::get('/customers/{id}/deactivate', [CustomerController::class, 'deactivate'])->name('customers.deactivate');
+
+    Route::get('/create/step1', [CustomerWizardController::class, 'step1'])->name('customers.create.step1');
+    Route::post('/create/step1', [CustomerWizardController::class, 'postStep1'])->name('customers.create.step1.post');
+
+    Route::get('/create/step2', [CustomerWizardController::class, 'step2'])->name('customers.create.step2');
+    Route::post('/create/step2', [CustomerWizardController::class, 'postStep2'])->name('customers.create.step2.post');
+
+    Route::get('/create/step3', [CustomerWizardController::class, 'step3'])->name('customers.create.step3');
+    Route::post('/create/step3', [CustomerWizardController::class, 'postStep3'])->name('customers.create.step3.post');
+
+    Route::get('/create/step4', [CustomerWizardController::class, 'step4'])->name('customers.create.step4');
+    Route::post('/create/step4', [CustomerWizardController::class, 'postStep4'])->name('customers.create.step4.post');
+
+    Route::get('/create/step5', [CustomerWizardController::class, 'step5'])->name('customers.create.step5');
+    Route::post('/create/step5', [CustomerWizardController::class, 'postStep5'])->name('customers.create.step5.post');
+
+    Route::get('/create/step6', [CustomerWizardController::class, 'step6'])->name('customers.create.step6');
+    Route::post('/create/submit', [CustomerWizardController::class, 'submit'])->name('customers.create.submit');
+});
+
+
+
+
+
 
 Route::namespace('Gateway')->prefix('callback')->name('callback.')->group(function () {
     //Fiat Currency

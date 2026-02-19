@@ -15,6 +15,53 @@ $upcomming_repayments = request_count('upcomming_repayments', true);
 </li>
 
 <li>
+    <a href="javascript: void(0);">
+        <i class="fas fa-book"></i>
+        <span>{{ _lang('Registry Module') }}</span>
+        <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+    </a>
+
+    <ul class="nav-second-level" aria-expanded="false">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('customers.index') }}">
+                {{ _lang('Customers') }}
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('customers.create.step1') }}">
+                {{ _lang('Add Customer') }}
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{ _lang('Customer Categories') }}
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{ _lang('Closed Accounts') }}
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{ _lang('Documents') }}
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{ _lang('Standing Instructions') }}
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+<li>
 	<a href="javascript: void(0);"><i class="fas fa-user-friends"></i><span>{{ _lang('Members') }} {!! xss_clean($member_requests) !!}</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
 	<ul class="nav-second-level" aria-expanded="false">
 		<li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}">{{ _lang('View Members') }}</a></li>
