@@ -59,7 +59,12 @@ $upcomming_repayments = request_count('upcomming_repayments', true);
         </li>
     </ul>
 </li>
+<li class="nav-item">
+<a class="nav-link" href="{{ route('customer_categories.index') }}">
+    {{ _lang('Customer Categories') }}
+</a>
 
+</li>
 
 <li>
 	<a href="javascript: void(0);"><i class="fas fa-user-friends"></i><span>{{ _lang('Members') }} {!! xss_clean($member_requests) !!}</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>

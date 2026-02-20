@@ -40,6 +40,8 @@ use App\Http\Controllers\WithdrawRequestController;
 use App\Http\Controllers\CustomerWizardController;
 use App\Http\Controllers\TransactionCategoryController;
 use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\CustomerCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -365,6 +367,9 @@ Route::prefix('registry')->middleware(['auth'])->group(function () {
 
     Route::get('/create/step6', [CustomerWizardController::class, 'step6'])->name('customers.create.step6');
     Route::post('/create/submit', [CustomerWizardController::class, 'submit'])->name('customers.create.submit');
+
+    // Additional routes for customer categories
+    Route::resource('customer_categories', CustomerCategoryController::class);
 });
 
 
