@@ -5,7 +5,7 @@
     <div class="card shadow-sm">
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Customers</h5>
-            <a href="{{ route('customers.create') }}" class="btn btn-success btn-sm">+ Add Customer</a>
+            <a href="{{ route('customers.create.step1') }}" class="btn btn-success btn-sm">+ Add Customer</a>
         </div>
 
         <div class="card-body">

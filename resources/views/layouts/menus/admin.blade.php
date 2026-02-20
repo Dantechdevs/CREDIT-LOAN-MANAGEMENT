@@ -35,7 +35,7 @@ $upcomming_repayments = request_count('upcomming_repayments', true);
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('customer_categories.index') }}">
                 {{ _lang('Customer Categories') }}
             </a>
         </li>
@@ -52,18 +52,19 @@ $upcomming_repayments = request_count('upcomming_repayments', true);
             </a>
         </li>
 
+        <li class="nav-item {{ request()->routeIs('customer_transfer.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('customer_transfer.index') }}">
+            {{ _lang('Customer Transfer') }}
+            </a>
+        </li>
+
+
         <li class="nav-item">
             <a class="nav-link" href="#">
                 {{ _lang('Standing Instructions') }}
             </a>
         </li>
     </ul>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="{{ route('customer_categories.index') }}">
-    {{ _lang('Customer Categories') }}
-</a>
-
 </li>
 
 <li>

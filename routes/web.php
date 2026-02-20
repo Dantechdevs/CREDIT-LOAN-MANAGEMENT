@@ -41,6 +41,7 @@ use App\Http\Controllers\CustomerWizardController;
 use App\Http\Controllers\TransactionCategoryController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\CustomerCategoryController;
+use App\Http\Controllers\CustomerTransferController;
 
 
 /*
@@ -370,47 +371,55 @@ Route::prefix('registry')->middleware(['auth'])->group(function () {
 
     // Additional routes for customer categories
     Route::resource('customer_categories', CustomerCategoryController::class);
+
+    // Customer Transfer
+    Route::prefix('registry/customers')->group(function () {
+
+        Route::get('customer-transfer', [CustomerTransferController::class, 'index'])->name('customer_transfer.index');
+
+        Route::post('customer-transfer', [CustomerTransferController::class, 'store'])->name('customer_transfer.store');
+    });
+
+
+
+
+
+
+    Route::namespace('Gateway')->prefix('callback')->name('callback.')->group(function () {
+        //Fiat Currency
+        Route::get('paypal', 'PayPal\ProcessController@callback')->name('PayPal')->middleware('auth');
+        Route::post('stripe', 'Stripe\ProcessController@callback')->name('Stripe')->middleware('auth');
+        Route::post('razorpay', 'Razorpay\ProcessController@callback')->name('Razorpay')->middleware('auth');
+        Route::get('paystack', 'Paystack\ProcessController@callback')->name('Paystack')->middleware('auth');
+        Route::get('flutterwave', 'Flutterwave\ProcessController@callback')->name('Flutterwave')->middleware('auth');
+        Route::match(['get', 'post'], 'voguepay', 'VoguePay\ProcessController@callback')->name('VoguePay');
+        Route::get('mollie', 'Mollie\ProcessController@callback')->name('Mollie')->middleware('auth');
+        Route::match(['get', 'post'], 'instamojo', 'Instamojo\ProcessController@callback')->name('Instamojo');
+
+        //Crypto Currency
+        Route::get('blockchain', 'BlockChain\ProcessController@callback')->name('BlockChain');
+        Route::post('coinpayments', 'CoinPayments\ProcessController@callback')->name('CoinPayments');
+    });
+
+    Route::get('dashboard/json_expense_by_category', [DashboardController::class, 'json_expense_by_category'])->middleware('auth');
+    Route::get('dashboard/json_deposit_withdraw_analytics/{currency_id?}', [DashboardController::class, 'json_deposit_withdraw_analytics'])->middleware('auth');
+
+    //Social Login
+    Route::get('/login/{provider}', [SocialController::class, 'redirect']);
+    Route::get('/login/{provider}/callback', [SocialController::class, 'callback']);
+
+    //Ajax Select2 Controller
+    Route::get('ajax/get_table_data', [Select2Controller::class, 'get_table_data']);
+
+    Route::get('/installation', 'Install\InstallController@index');
+    Route::get('install/database', 'Install\InstallController@database');
+    Route::post('install/process_install', 'Install\InstallController@process_install');
+    Route::get('install/create_user', 'Install\InstallController@create_user');
+    Route::post('install/store_user', 'Install\InstallController@store_user');
+    Route::get('install/system_settings', 'Install\InstallController@system_settings');
+    Route::post('install/finish', 'Install\InstallController@final_touch');
+
+    //Update System
+    Route::get('system/update/{action?}', 'Install\UpdateController@index');
+    Route::get('migration/update', 'Install\UpdateController@update_migration');
 });
-
-
-
-
-
-
-Route::namespace('Gateway')->prefix('callback')->name('callback.')->group(function () {
-    //Fiat Currency
-    Route::get('paypal', 'PayPal\ProcessController@callback')->name('PayPal')->middleware('auth');
-    Route::post('stripe', 'Stripe\ProcessController@callback')->name('Stripe')->middleware('auth');
-    Route::post('razorpay', 'Razorpay\ProcessController@callback')->name('Razorpay')->middleware('auth');
-    Route::get('paystack', 'Paystack\ProcessController@callback')->name('Paystack')->middleware('auth');
-    Route::get('flutterwave', 'Flutterwave\ProcessController@callback')->name('Flutterwave')->middleware('auth');
-    Route::match(['get', 'post'], 'voguepay', 'VoguePay\ProcessController@callback')->name('VoguePay');
-    Route::get('mollie', 'Mollie\ProcessController@callback')->name('Mollie')->middleware('auth');
-    Route::match(['get', 'post'], 'instamojo', 'Instamojo\ProcessController@callback')->name('Instamojo');
-
-    //Crypto Currency
-    Route::get('blockchain', 'BlockChain\ProcessController@callback')->name('BlockChain');
-    Route::post('coinpayments', 'CoinPayments\ProcessController@callback')->name('CoinPayments');
-});
-
-Route::get('dashboard/json_expense_by_category', [DashboardController::class, 'json_expense_by_category'])->middleware('auth');
-Route::get('dashboard/json_deposit_withdraw_analytics/{currency_id?}', [DashboardController::class, 'json_deposit_withdraw_analytics'])->middleware('auth');
-
-//Social Login
-Route::get('/login/{provider}', [SocialController::class, 'redirect']);
-Route::get('/login/{provider}/callback', [SocialController::class, 'callback']);
-
-//Ajax Select2 Controller
-Route::get('ajax/get_table_data', [Select2Controller::class, 'get_table_data']);
-
-Route::get('/installation', 'Install\InstallController@index');
-Route::get('install/database', 'Install\InstallController@database');
-Route::post('install/process_install', 'Install\InstallController@process_install');
-Route::get('install/create_user', 'Install\InstallController@create_user');
-Route::post('install/store_user', 'Install\InstallController@store_user');
-Route::get('install/system_settings', 'Install\InstallController@system_settings');
-Route::post('install/finish', 'Install\InstallController@final_touch');
-
-//Update System
-Route::get('system/update/{action?}', 'Install\UpdateController@index');
-Route::get('migration/update', 'Install\UpdateController@update_migration');
